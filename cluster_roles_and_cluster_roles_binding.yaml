@@ -1,0 +1,24 @@
+# here, we are creating a ClusteRole named accessNodes to aquire some actions on nodes
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: accessNodes
+rules:
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["list","create","delete","watch"]
+
+---
+# In this section we are binding the newely created ClusterRole accessNodes to user michelle
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: michelle-user-binding
+subjects:
+  - kind: User
+    name: michelle
+    apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name:  accessNodes
+  apiGroup: rbac.authorization.k8s.io
